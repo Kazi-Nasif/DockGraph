@@ -35,9 +35,23 @@ Requires Python 3.10+ and a CUDA GPU (optional).
 Docking Benchmark 5.5 is included under `data/benchmark/`. Original source: [Graylab/AlphaRED](https://github.com/Graylab/AlphaRED/tree/main/benchmark).
 
 ## Usage
+
+### Predict docking (no ground truth)
 ```bash
-python predict.py receptor.pdb ligand.pdb [options]
+python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb>
 ```
+
+### Predict and evaluate against ground truth
+```bash
+python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb> --bound <bound_complex.pdb> --lig_chains <chain_ids>
+```
+
+### Save output to a specific path
+```bash
+python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb> -o <output_path.pdb>
+```
+
+### Options
 
 | Flag | Description |
 |------|-------------|
