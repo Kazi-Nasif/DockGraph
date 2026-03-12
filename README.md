@@ -67,40 +67,30 @@ python step4_model.py 1A2K rigid_targets
 python step5_train.py
 ```
 
-Trains on all 254 targets (80/20 split, seed 42). Best model saved to `experiments/<timestamp>/best_model.pt`.
-
 ### Step 6: Evaluate (full CAPRI metrics)
 ```bash
 python step6_evaluate.py
 ```
-
-Outputs `capri_results.csv` and `capri_summary.json` to the experiment's `evaluation/` directory.
 
 ### Step 7: Evaluate on antibody-antigen targets
 ```bash
 python eval_antibody.py
 ```
 
-Evaluates on all 67 AA/AS targets from DB5.5 and compares with AlphaRED (43%) and AF-multimer (20%).
-
-### Generate paper figures
-```bash
-python plot_comparison.py
-python plot_dockq_dist.py
-```
-
-Figures saved to `paper/` directory.
-
 ## Usage
 
-### Predict docking from two unbound structures
+### Predict docking
 ```bash
-python predict.py <receptor.pdb> <ligand.pdb>
+python predict.py data/benchmark/<difficulty>/<PDB_ID>/<PDB_ID>_r_u.pdb \
+                  data/benchmark/<difficulty>/<PDB_ID>/<PDB_ID>_l_u.pdb
 ```
 
 ### Predict and evaluate against ground truth
 ```bash
-python predict.py <receptor.pdb> <ligand.pdb> --bound <bound.pdb> --lig_chains <chain_ids>
+python predict.py data/benchmark/<difficulty>/<PDB_ID>/<PDB_ID>_r_u.pdb \
+                  data/benchmark/<difficulty>/<PDB_ID>/<PDB_ID>_l_u.pdb \
+                  --bound data/benchmark/<difficulty>/<PDB_ID>/<PDB_ID>_b.pdb \
+                  --lig_chains <chain_ids>
 ```
 
 ### Options
@@ -108,8 +98,8 @@ python predict.py <receptor.pdb> <ligand.pdb> --bound <bound.pdb> --lig_chains <
 | Flag | Description |
 |------|-------------|
 | `--bound` | Bound complex PDB for evaluation |
-| `--lig_chains` | Ligand chain IDs (default: all) |
-| `--rec_chains` | Receptor chain IDs (default: all) |
+| `--lig_chains` | Ligand chain IDs |
+| `--rec_chains` | Receptor chain IDs |
 | `-o` | Output PDB path |
 | `--checkpoint` | Model file path |
 
