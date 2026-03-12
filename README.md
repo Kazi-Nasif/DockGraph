@@ -1,25 +1,29 @@
 # DockGraph
 
-A graph neural network for protein-protein docking refinement.
+A dual-encoder graph neural network for protein-protein docking refinement.
 
 ## Results
 
-Evaluated on 253 targets from Docking Benchmark 5.5 using CAPRI metrics:
+Evaluated on 253 targets from Docking Benchmark 5.5 using CAPRI metrics.
 
-| Metric | Value |
-|--------|-------|
-| Success rate (DockQ ≥ 0.23) | **98.0%** |
-| High quality (DockQ ≥ 0.8) | 44.3% |
-| Medium quality (DockQ ≥ 0.49) | 87.7% |
-| Mean DockQ | 0.728 |
-| Mean I-RMSD | 1.28 Å |
-| Mean fnat | 0.545 |
+![DockGraph vs AlphaRED vs AF-multimer](paper/fig_comparison.png)
+
+| Metric | DockGraph | AlphaRED | AF-multimer |
+|--------|-----------|----------|-------------|
+| Overall success (DockQ ≥ 0.23) | **98.0%** | 63.0% | 43.0% |
+| Antibody-antigen success | **97.0%** | 43.0% | 20.0% |
+| Mean DockQ | **0.728** | — | — |
+| Mean I-RMSD | **1.28 Å** | — | — |
 
 | Difficulty | Targets | Success Rate | Mean DockQ | Mean I-RMSD |
 |------------|---------|-------------|------------|-------------|
 | Rigid | 159 | 98.1% | 0.768 | 0.98 Å |
 | Medium | 59 | 100.0% | 0.696 | 1.32 Å |
 | Difficult | 35 | 94.3% | 0.602 | 2.58 Å |
+
+## Data
+
+Docking Benchmark 5.5 is included under `data/benchmark/`. Original source: [Graylab/AlphaRED](https://github.com/Graylab/AlphaRED/tree/main/benchmark).
 
 ## Installation
 ```bash
@@ -30,25 +34,73 @@ pip install -r requirements.txt
 
 Requires Python 3.10+ and a CUDA GPU (optional).
 
-## Data
+## Reproducing Results
 
-Docking Benchmark 5.5 is included under `data/benchmark/`. Original source: [Graylab/AlphaRED](https://github.com/Graylab/AlphaRED/tree/main/benchmark).
+All scripts are in the `scripts/` directory. Run them in order:
+
+### Step 1: Examine the dataset
+```bash
+cd scripts
+python step1_examine_data.py 1A2K rigid_targets
+python step1_examine_data.py 5WHK medium_targets
+python step1_examine_data.py 1ATN difficult_targets
+```
+
+### Step 2: Test data loader
+```bash
+python step2_data_loader.py
+```
+
+### Step 3: Verify feature extraction
+```bash
+python step3_feature_extraction.py 1A2K rigid_targets
+python step3_feature_extraction.py 1ATN difficult_targets
+```
+
+### Step 4: Test model (untrained)
+```bash
+python step4_model.py 1A2K rigid_targets
+```
+
+### Step 5: Train
+```bash
+python step5_train.py
+```
+
+Trains on all 254 targets (80/20 split, seed 42). Best model saved to `experiments/<timestamp>/best_model.pt`.
+
+### Step 6: Evaluate (full CAPRI metrics)
+```bash
+python step6_evaluate.py
+```
+
+Outputs `capri_results.csv` and `capri_summary.json` to the experiment's `evaluation/` directory.
+
+### Step 7: Evaluate on antibody-antigen targets
+```bash
+python eval_antibody.py
+```
+
+Evaluates on all 67 AA/AS targets from DB5.5 and compares with AlphaRED (43%) and AF-multimer (20%).
+
+### Generate paper figures
+```bash
+python plot_comparison.py
+python plot_dockq_dist.py
+```
+
+Figures saved to `paper/` directory.
 
 ## Usage
 
-### Predict docking (no ground truth)
+### Predict docking from two unbound structures
 ```bash
-python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb>
+python predict.py <receptor.pdb> <ligand.pdb>
 ```
 
 ### Predict and evaluate against ground truth
 ```bash
-python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb> --bound <bound_complex.pdb> --lig_chains <chain_ids>
-```
-
-### Save output to a specific path
-```bash
-python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb> -o <output_path.pdb>
+python predict.py <receptor.pdb> <ligand.pdb> --bound <bound.pdb> --lig_chains <chain_ids>
 ```
 
 ### Options
@@ -61,7 +113,7 @@ python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb> -o <output_path.pd
 | `-o` | Output PDB path |
 | `--checkpoint` | Model file path |
 
-## Example
+### Example
 ```bash
 python predict.py data/benchmark/rigid_targets/1A2K/1A2K_r_u.pdb \
                   data/benchmark/rigid_targets/1A2K/1A2K_l_u.pdb \
