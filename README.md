@@ -36,7 +36,8 @@ Docking Benchmark 5.5 is included under `data/benchmark/`. Original source: [Gra
 
 ## Usage
 ```bash
-python predict.py <receptor_unbound.pdb> <ligand_unbound.pdb> [options]
+python predict.py data/benchmark/<difficulty>/<PDB_ID>/<PDB_ID>_r_u.pdb \
+                  data/benchmark/<difficulty>/<PDB_ID>/<PDB_ID>_l_u.pdb [options]
 ```
 
 | Flag | Description |
