@@ -1,0 +1,10 @@
+{
+  "total_ab_targets": 67,
+  "evaluated": 67,
+  "success_count": 65,
+  "success_rate": 97.01,
+  "mean_dockq": 0.7232,
+  "mean_irmsd": 1.3667,
+  "mean_lrmsd": 2.809,
+  "mean_fnat": 0.5434
+}

@@ -1,0 +1,25 @@
+{
+  "checkpoint": "/mnt/bst/a100/bdeng2/knasif/Protein Docking/DockGraph/experiments/20260307_073713_full_training/best_model.pt",
+  "total": 253,
+  "success_count": 248,
+  "success_rate": 98.02371541501977,
+  "mean_dockq": 0.7282707730949007,
+  "mean_irmsd": 1.279033580916125,
+  "mean_lrmsd": 2.1767935555358355,
+  "mean_fnat": 0.5453677885730954,
+  "rigid_targets": {
+    "count": 159,
+    "success_rate": 98.11320754716981,
+    "mean_dockq": 0.768063455444918
+  },
+  "medium_targets": {
+    "count": 59,
+    "success_rate": 100.0,
+    "mean_dockq": 0.6957476073352682
+  },
+  "difficult_targets": {
+    "count": 35,
+    "success_rate": 94.28571428571428,
+    "mean_dockq": 0.6023230669853459
+  }
+}

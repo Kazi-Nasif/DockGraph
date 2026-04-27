@@ -1,0 +1,48 @@
+{
+  "target_id": "H1141",
+  "casp_target": "T206",
+  "pdb_id": "9ERU",
+  "description": "Mouse CNPase catalytic domain with nanobody 7E",
+  "complex_type": "nanobody-antigen",
+  "structure_file": "9ERU.cif",
+  "chains": {
+    "A": {
+      "name": "CNPase catalytic domain",
+      "organism": "Mus musculus",
+      "type": "antigen"
+    },
+    "B": {
+      "name": "Nanobody 7E",
+      "organism": "Vicugna pacos",
+      "type": "nanobody"
+    }
+  },
+  "extracted_chains": {
+    "A": "chain_A_antigen.pdb",
+    "B": "chain_B_nanobody.pdb"
+  },
+  "sequence_verification": {
+    "B": {
+      "matched": false,
+      "identity": 0.07042253521126761,
+      "struct_length": 213,
+      "target_length": 127,
+      "struct_seq_preview": "LEKDFLPLYFGWFLTKKSSETLRKAGQVFLEELGNHKAFKKELRHFIEKL...",
+      "target_seq_preview": "EVQLEESGGGWVHPGGSLRLSCAASGNVFGVNTMAWYRQAPGKQREQREL..."
+    },
+    "A": {
+      "matched": false,
+      "identity": 0.0639269406392694,
+      "struct_length": 206,
+      "target_length": 219,
+      "struct_seq_preview": "FLPLYFGWFLTKKSSETLRKAGQVFLEELGNHKAFKKELRHFIELVSYFG...",
+      "target_seq_preview": "GLEKDFLPLYFGWFLTKKSSETLRKAGQVFLEELGNHKAFKKELRHFISG..."
+    }
+  },
+  "notes": [
+    "Chain A = CNPase catalytic domain (receptor/antigen)",
+    "Chain B = Nanobody 7E (ligand/nanobody)",
+    "For DockQ evaluation: receptor=A, ligand=B",
+    "Crystal structure from Kursula et al. nanobody-CNPase series"
+  ]
+}
